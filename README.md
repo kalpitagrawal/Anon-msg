@@ -1,22 +1,42 @@
+<div align="center">
+
 # AnonMsg — Anonymous Messaging Platform
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-anon--msg--delta.vercel.app-10b981?style=for-the-badge&logo=vercel&logoColor=white)](https://anon-msg-delta.vercel.app)
-[![React](https://img.shields.io/badge/Frontend-React_19_+_Vite-61dafb?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
-[![Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind_CSS_v4-38bdf8?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
-[![Node.js](https://img.shields.io/badge/Backend-Node.js_+_Express_5-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
-[![Render](https://img.shields.io/badge/Deployed_On-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://render.com)
-[![MongoDB](https://img.shields.io/badge/Database-MongoDB_Atlas-47a248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/atlas)
-[![License](https://img.shields.io/badge/License-ISC-blue?style=for-the-badge)](LICENSE)
+**A production-grade, full-stack anonymous messaging web platform with dual-token JWT security and transactional OTP delivery.**
 
-A full-stack, secure anonymous messaging web application. Users create a unique profile link, share it across social platforms (such as Instagram bio, Twitter, or WhatsApp), and receive feedback in a private, real-time dashboard.
+[![Live Demo](https://img.shields.io/badge/Live_Demo-anon--msg--delta.vercel.app-10b981?style=for-the-badge&logo=vercel&logoColor=white)](https://anon-msg-delta.vercel.app)
+[![CI Quality Checks](https://img.shields.io/github/actions/workflow/status/kalpitagrawal/Anon-msg/ci.yml?branch=main&label=CI&style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/kalpitagrawal/Anon-msg/actions)
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue?style=for-the-badge)](LICENSE)
+
+<br/>
+
+[![React](https://img.shields.io/badge/React_19-20232A?style=flat-square&logo=react&logoColor=61DAFB)](https://react.dev)
+[![Vite](https://img.shields.io/badge/Vite_8-646CFF?style=flat-square&logo=vite&logoColor=white)](https://vite.dev)
+[![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS_v4-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![Node.js](https://img.shields.io/badge/Node.js-43853D?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
+[![Express 5](https://img.shields.io/badge/Express_5-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com)
+[![MongoDB Atlas](https://img.shields.io/badge/MongoDB_Atlas-4EA94B?style=flat-square&logo=mongodb&logoColor=white)](https://www.mongodb.com/atlas)
+[![Render](https://img.shields.io/badge/Render-46E3B7?style=flat-square&logo=render&logoColor=white)](https://render.com)
+[![Brevo](https://img.shields.io/badge/Brevo_REST_API-0B99FF?style=flat-square&logo=mailgun&logoColor=white)](https://www.brevo.com/)
+
+<br/>
+
+[Explore Live Demo](https://anon-msg-delta.vercel.app) · [Report Bug](https://github.com/kalpitagrawal/Anon-msg/issues) · [Request Feature](https://github.com/kalpitagrawal/Anon-msg/issues)
+
+<br/>
+
+<img src=".github/assets/hero.svg" alt="AnonMsg Product Showcase" width="100%"/>
+
+</div>
+
+<br/>
 
 ---
 
-## Live Application
+## Live Deployment
 
-- **Live URL:** [https://anon-msg-delta.vercel.app](https://anon-msg-delta.vercel.app)
-- **Frontend Host:** [Vercel](https://vercel.com)
-- **Backend Host:** [Render](https://render.com) (Node.js Web Service + Brevo HTTPS transactional email + MongoDB Atlas)
+- **Frontend:** [https://anon-msg-delta.vercel.app](https://anon-msg-delta.vercel.app) (Hosted on Vercel)
+- **Backend API:** Hosted on [Render](https://render.com) (Node.js Web Service + Brevo HTTPS transactional email + MongoDB Atlas)
 
 ---
 

@@ -1,0 +1,36 @@
+name: CI Quality Checks
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test-and-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: |
+            backend/package-lock.json
+            frontend/package-lock.json
+
+      - name: Backend Tests
+        run: |
+          cd backend
+          npm ci
+          npm test
+
+      - name: Frontend Build & Lint
+        run: |
+          cd frontend
+          npm ci
+          npm run lint
+          npm run build
