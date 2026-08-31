@@ -1,29 +1,34 @@
-import nodemailer from "nodemailer";
-
-let transporter;
-
-const getTransporter = () => {
-  if (!transporter) {
-    transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT),
-      secure: Number(process.env.SMTP_PORT) === 465,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
-  }
-  return transporter;
-};
-
 export const sendEmail = async ({ to, subject, html }) => {
-  await getTransporter().sendMail({
-    from: `"Anon Message App" <${process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER}>`,
-    to,
-    subject,
-    html,
+  const apiKey = process.env.BREVO_API_KEY;
+  if (!apiKey) {
+    throw new Error("BREVO_API_KEY environment variable is missing");
+  }
+
+  const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      "accept": "application/json",
+      "api-key": apiKey,
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      sender: {
+        name: "Anon Message App",
+        email: process.env.SMTP_FROM_EMAIL || "kishan06nitr@gmail.com",
+      },
+      to: [{ email: to }],
+      subject,
+      htmlContent: html,
+    }),
   });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || `Brevo email API error: ${response.status}`);
+  }
+
+  return data;
 };
 
 export const sendVerificationEmail = async (email, otp) => {

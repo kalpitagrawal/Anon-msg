@@ -12,7 +12,12 @@ export const checkUsernameAvailable = asyncHandler(async (req, res) => {
       .json(new ApiResponse(200, { available: false, reason: "invalid format" }));
   }
 
-  const existing = await User.findOne({ username, isVerified: true })
+  // If user is verified, username is definitely taken.
+  // If user is unverified and reservation hasn't expired, it's temporarily taken.
+  const existing = await User.findOne({
+    username,
+    $or: [{ isVerified: true }, { verifyCodeExpiry: { $gt: new Date() } }],
+  })
     .select("_id")
     .lean();
 

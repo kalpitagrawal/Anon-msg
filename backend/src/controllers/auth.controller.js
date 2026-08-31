@@ -52,14 +52,25 @@ export const signup = asyncHandler(async (req, res) => {
     throw new ApiError(400, "All fields required");
   }
 
-  const existingUsername = await User.findOne({ username, isVerified: true });
-  if (existingUsername) {
+  const existingVerifiedUsername = await User.findOne({ username, isVerified: true });
+  if (existingVerifiedUsername) {
     throw new ApiError(409, "Username already taken");
   }
 
   const existingEmail = await User.findOne({ email });
   if (existingEmail && existingEmail.isVerified) {
     throw new ApiError(409, "Email already registered");
+  }
+
+  // If another unverified user holds this username with a different email, clean it up or prevent duplicate key collision
+  const existingUsernameOther = await User.findOne({ username, email: { $ne: email } });
+  if (existingUsernameOther && !existingUsernameOther.isVerified) {
+    // Overwrite unverified abandoned reservation if expired, or inform user
+    if (existingUsernameOther.verifyCodeExpiry < new Date()) {
+      await User.deleteOne({ _id: existingUsernameOther._id });
+    } else {
+      throw new ApiError(409, "Username is temporarily reserved. Try another.");
+    }
   }
 
   const hashedPassword = await bcrypt.hash(password, BCRYPT_SALT_ROUNDS);
@@ -84,7 +95,11 @@ export const signup = asyncHandler(async (req, res) => {
     });
   }
 
-  await sendVerificationEmail(email, otp);
+  try {
+    await sendVerificationEmail(email, otp);
+  } catch (mailError) {
+    throw new ApiError(500, `Failed to send verification email: ${mailError.message || "Email service error"}`);
+  }
 
   return res
     .status(201)
@@ -246,7 +261,11 @@ export const resendOtp = asyncHandler(async (req, res) => {
   user.verifyCodeExpiry = otpExpiry;
   await user.save();
 
-  await sendVerificationEmail(email, otp);
+  try {
+    await sendVerificationEmail(email, otp);
+  } catch (mailError) {
+    throw new ApiError(500, `Failed to send email: ${mailError.message || "Email service error"}`);
+  }
 
   return res
     .status(200)
@@ -276,7 +295,11 @@ export const forgotPassword = asyncHandler(async (req, res) => {
   user.resetPasswordExpiry = otpExpiry;
   await user.save();
 
-  await sendResetPasswordEmail(email, otp);
+  try {
+    await sendResetPasswordEmail(email, otp);
+  } catch (mailError) {
+    throw new ApiError(500, `Failed to send reset email: ${mailError.message || "Email service error"}`);
+  }
 
   return res
     .status(200)
