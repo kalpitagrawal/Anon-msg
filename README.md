@@ -4,6 +4,7 @@
 [![React](https://img.shields.io/badge/Frontend-React_19_+_Vite-61dafb?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
 [![Tailwind CSS](https://img.shields.io/badge/Styling-Tailwind_CSS_v4-38bdf8?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![Node.js](https://img.shields.io/badge/Backend-Node.js_+_Express_5-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
+[![Render](https://img.shields.io/badge/Deployed_On-Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)](https://render.com)
 [![MongoDB](https://img.shields.io/badge/Database-MongoDB_Atlas-47a248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/atlas)
 [![License](https://img.shields.io/badge/License-ISC-blue?style=for-the-badge)](LICENSE)
 
@@ -15,7 +16,7 @@ A full-stack, secure anonymous messaging web application. Users create a unique 
 
 - **Live URL:** [https://anon-msg-delta.vercel.app](https://anon-msg-delta.vercel.app)
 - **Frontend Host:** [Vercel](https://vercel.com)
-- **Backend Host:** Cloud Node.js API with Brevo HTTPS transactional email and MongoDB Atlas
+- **Backend Host:** [Render](https://render.com) (Node.js Web Service + Brevo HTTPS transactional email + MongoDB Atlas)
 
 ---
 
@@ -136,7 +137,7 @@ flowchart TD
 ## Project Structure
 
 ```
-veno-mous/
+anon-msg/
 ├── backend/
 │   ├── src/
 │   │   ├── config/             # Database connection and environment config
@@ -224,8 +225,8 @@ Base URL: `/api/v1`
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/kalpitagrawal/veno-mous.git
-cd veno-mous
+git clone https://github.com/kalpitagrawal/Anon-msg.git
+cd Anon-msg
 ```
 
 ### 2. Backend Setup
@@ -311,22 +312,29 @@ npm run lint
    - `VITE_API_URL`: `https://your-backend-api-url.com/api/v1`
 5. Click **Deploy**. The included [`frontend/vercel.json`](frontend/vercel.json) handles all SPA client-side routes automatically.
 
-### Deploying Backend to Render or Railway
-1. Create a new **Web Service** pointing to your repository.
-2. Set the Root Directory to `backend`.
-3. Build Command: `npm install`
-4. Start Command: `node server.js`
-5. Configure production environment variables:
-   - `MONGODB_URI`
-   - `ACCESS_TOKEN_SECRET`
-   - `REFRESH_TOKEN_SECRET`
+### Deploying Backend to Render
+1. Create a new **Web Service** on [Render](https://render.com) connected to your GitHub repository.
+2. Configure service settings:
+   - **Root Directory:** `backend`
+   - **Environment:** `Node`
+   - **Build Command:** `npm install`
+   - **Start Command:** `node server.js`
+3. Configure environment variables in the Render dashboard:
+   - `NODE_ENV`: `production`
+   - `MONGODB_URI`: `your_mongodb_atlas_connection_string`
+   - `ACCESS_TOKEN_SECRET`: `your_access_token_secret`
+   - `ACCESS_TOKEN_EXPIRY`: `15m`
+   - `REFRESH_TOKEN_SECRET`: `your_refresh_token_secret`
+   - `REFRESH_TOKEN_EXPIRY`: `7d`
    - `CORS_ORIGIN`: `https://anon-msg-delta.vercel.app`
-   - `BREVO_API_KEY`
-   - `SMTP_FROM_EMAIL`
+   - `BREVO_API_KEY`: `your_brevo_api_key`
+   - `SMTP_FROM_EMAIL`: `your_verified_sender_email`
 
 ---
 
 ## Contributing
+
+Contributions, issues, and feature requests are welcome. Feel free to check the [issues page](https://github.com/kalpitagrawal/Anon-msg/issues).
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/improvement`)
@@ -340,6 +348,5 @@ npm run lint
 
 **Kalpit Agrawal**
 - GitHub: [@kalpitagrawal](https://github.com/kalpitagrawal)
-- Repository: [veno-mous](https://github.com/kalpitagrawal/veno-mous)
 
 This project is licensed under the **ISC License**.
