@@ -18,17 +18,44 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+let refreshPromise = null;
+
 api.interceptors.response.use(
   (res) => res,
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    // Never retry auth endpoints (e.g. /auth/refresh, /auth/login) to prevent infinite loops
+    const isAuthRequest = originalRequest?.url?.includes("/auth/");
+
+    if (
+      error.response?.status === 401 &&
+      !originalRequest?._retry &&
+      !isAuthRequest
+    ) {
       originalRequest._retry = true;
+
       try {
-        const { data } = await api.post("/auth/refresh");
-        setAccessToken(data.data.accessToken);
-        originalRequest.headers.Authorization = `Bearer ${data.data.accessToken}`;
+        if (!refreshPromise) {
+          // Use a fresh axios call so it does NOT trigger this interceptor recursively
+          refreshPromise = axios
+            .post(
+              `${api.defaults.baseURL}/auth/refresh`,
+              {},
+              { withCredentials: true }
+            )
+            .then((res) => {
+              const newToken = res.data.data.accessToken;
+              setAccessToken(newToken);
+              return newToken;
+            })
+            .finally(() => {
+              refreshPromise = null;
+            });
+        }
+
+        const newToken = await refreshPromise;
+        originalRequest.headers.Authorization = `Bearer ${newToken}`;
         return api(originalRequest);
       } catch (refreshError) {
         setAccessToken(null);
