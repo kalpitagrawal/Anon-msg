@@ -23,10 +23,6 @@
 
 [Explore Live Demo](https://anon-msg-delta.vercel.app) · [Report Bug](https://github.com/kalpitagrawal/Anon-msg/issues) · [Request Feature](https://github.com/kalpitagrawal/Anon-msg/issues)
 
-<br/>
-
-<img src=".github/assets/hero.svg" alt="AnonMsg Product Showcase" width="100%"/>
-
 </div>
 
 <br/>
